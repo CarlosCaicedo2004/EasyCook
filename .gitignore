@@ -1,0 +1,48 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log
+
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+out/
+
+# Logs
+logs
+*.log
+*.log.*
+log/
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Runtime data
+tmp/
+temp/
+.cache/
+coverage/
+*.lcov
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Tests
+jest-cache/
+jest-results.json

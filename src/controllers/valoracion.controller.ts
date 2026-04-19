@@ -11,7 +11,23 @@ export const getValoraciones = async (_: Request, res: Response) => {
   res.json(vals);
 };
 
+export const getValoracionesPorReceta = async (req: Request, res: Response) => {
+  const vals = await Valoracion.find({
+    receta_id: req.params.recetaId
+  });
+  res.json(vals);
+};
+
 export const deleteValoracion = async (req: Request, res: Response) => {
   await Valoracion.findByIdAndDelete(req.params.id);
   res.json({ message: "deleted" });
+};
+
+export const updateValoracion = async (req: Request, res: Response) => {
+  const val = await Valoracion.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.json(val);
 };

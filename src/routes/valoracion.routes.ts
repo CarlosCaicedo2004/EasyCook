@@ -1,10 +1,11 @@
 import { Router } from "express";
 import * as ctrl from "../controllers/valoracion.controller";
+import { verificarToken } from "../middlleware/auth.middlewares";
 
 const router = Router();
 
-router.post("/", ctrl.createValoracion);
-router.put("/:id", ctrl.updateValoracion);
+router.post("/", verificarToken, ctrl.createValoracion);
+router.put("/:id", verificarToken, ctrl.updateValoracion);
 router.get("/", ctrl.getValoraciones);
 router.delete("/:id", ctrl.deleteValoracion);
 

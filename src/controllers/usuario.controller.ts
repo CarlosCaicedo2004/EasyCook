@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
+
 export const createUsuario = async (req: Request, res: Response) => {
   try {
     const { nombre, email, password } = req.body;
@@ -71,9 +72,16 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "1h" }
     );
 
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.JWT_REFRESH_SECRET || "REFRESH_SECRET",
+      { expiresIn: "7d" }
+    );
+
     res.json({
       message: "Login exitoso",
       token,
+      refreshToken,
       user: {
         id: user._id,
         nombre: user.nombre,

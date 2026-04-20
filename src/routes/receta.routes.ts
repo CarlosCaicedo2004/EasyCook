@@ -13,4 +13,6 @@ router.get("/ingrediente/:ing", ctrl.buscarPorIngrediente);
 router.get("/tiempo/:time", ctrl.buscarPorTiempo);
 router.get("/tipo/:tipo", ctrl.buscarPorTipo);
 
+router.get("/recomendadas/filtro", ctrl.getRecomendadas);
+
 export default router;

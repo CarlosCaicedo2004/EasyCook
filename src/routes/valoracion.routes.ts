@@ -7,6 +7,7 @@ const router = Router();
 router.post("/", verificarToken, ctrl.createValoracion);
 router.put("/:id", verificarToken, ctrl.updateValoracion);
 router.get("/", ctrl.getValoraciones);
-router.delete("/:id", ctrl.deleteValoracion);
+router.get("/:recetaId", ctrl.getValoracionesPorReceta);
+router.delete("/:id", verificarToken, ctrl.deleteValoracion);
 
 export default router;

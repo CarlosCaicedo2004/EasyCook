@@ -1,19 +1,44 @@
 import { Request, Response } from "express";
 import Valoracion from "../models/valoracion.model";
+import Receta from "../models/receta.model";
+
 
 export const createValoracion = async (req: Request, res: Response) => {
   try {
-    const user = (req as any).user;
+    const user = (req as any).user; // viene del middleware
+    const { receta_id, puntuacion, comentario } = req.body;
+
+    if (!receta_id || !puntuacion) {
+      return res.status(400).json({ message: "Datos incompletos" });
+    }
+
+    const receta = await Receta.findById(receta_id);
+    if (!receta) {
+      return res.status(404).json({ message: "Receta no encontrada" });
+    }
+
+    const existe = await Valoracion.findOne({
+      receta_id,
+      usuario_id: user.id
+    });
+
+    if (existe) {
+      return res.status(400).json({
+        message: "Ya valoraste esta receta"
+      });
+    }
 
     const val = await Valoracion.create({
-      ...req.body,
-      usuario_id: user.id // 🔥 viene del token
+      receta_id,
+      usuario_id: user.id,
+      puntuacion,
+      comentario
     });
 
     res.json(val);
 
   } catch (error) {
-    res.status(500).json({ message: "Error creando valoración", error });
+    res.status(500).json({ message: "Error al crear valoración", error });
   }
 };
 
@@ -32,6 +57,7 @@ export const getValoraciones = async (_: Request, res: Response) => {
 
 export const getValoracionesPorReceta = async (req: Request, res: Response) => {
   try {
+    console.log("Receta ID:", req.params.recetaId); // Debug: Verificar el ID recibido
     const vals = await Valoracion.find({
       receta_id: req.params.recetaId
     }).populate("usuario_id", "nombre");

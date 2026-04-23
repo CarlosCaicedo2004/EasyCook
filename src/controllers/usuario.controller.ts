@@ -277,7 +277,8 @@ export const logout = async (req: Request, res: Response) => {
   const { userId } = req.body;
 
   await Usuario.findByIdAndUpdate(userId, {
-    refreshToken: null
+    refreshToken: null,
+    token: null
   });
 
   res.json({ message: "Logout exitoso" });

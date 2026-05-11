@@ -113,7 +113,7 @@ export const getRecomendadas = async (req: Request, res: Response) => {
   const { tipo, ingrediente } = req.query;
 
   const recetas = await Receta.find({
-    tipo,
+    tipo: tipo,
     ingredientes: ingrediente
   }).limit(5);
 

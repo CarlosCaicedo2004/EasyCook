@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/", verificarToken, ctrl.createReceta);
 router.get("/", ctrl.getRecetas);
-router.get("/:id", ctrl.getReceta);
+router.get("/:id", verificarToken, ctrl.getReceta);
 router.put("/:id", verificarToken, ctrl.updateReceta);
 router.delete("/:id", verificarToken, ctrl.deleteReceta);
 

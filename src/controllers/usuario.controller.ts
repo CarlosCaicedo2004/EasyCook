@@ -205,7 +205,7 @@ export const getHistorialReciente = async (req: Request, res: Response) => {
     const userId = req.params.id;
 
     const historial = await Usuario.aggregate([
-      { $match: { _id: new mongoose.Types.ObjectId(userId) } },
+      { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
 
       { $unwind: "$historial_recetas" },
 

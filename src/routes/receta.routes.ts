@@ -1,12 +1,13 @@
 import { Router } from "express";
 import * as ctrl from "../controllers/receta.controller";
 import { verificarToken } from "../middlleware/auth.middlewares";
+import { GetDataFromToken } from "../middlleware/receta.middlewares";
 
 const router = Router();
 
 router.post("/", verificarToken, ctrl.createReceta);
 router.get("/", ctrl.getRecetas);
-router.get("/:id", verificarToken, ctrl.getReceta);
+router.get("/:id", GetDataFromToken, ctrl.getReceta);
 router.put("/:id", verificarToken, ctrl.updateReceta);
 router.delete("/:id", verificarToken, ctrl.deleteReceta);
 

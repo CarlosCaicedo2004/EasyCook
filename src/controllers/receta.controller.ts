@@ -27,7 +27,7 @@ export const getReceta = async (req: Request, res: Response) => {
   const receta = await Receta.findById(req.params.id);
 
   // registrar historial si mandas userId
-  const userId = req.query.userId;
+  const userId = req.query.userId as string;
 
   if (userId) {
     await Usuario.findByIdAndUpdate(userId, {
@@ -110,11 +110,14 @@ export const buscarPorTipo = async (req: Request, res: Response) => {
 };
 
 export const getRecomendadas = async (req: Request, res: Response) => {
-  const { tipo, ingrediente } = req.query;
+  const tipo = req.query.tipo as string;
+  const ingrediente = (req.query.ingrediente as string).split(',');
+  const recetaIdActual = req.query.id as string;
 
   const recetas = await Receta.find({
+    _id: { $ne: recetaIdActual },
     tipo: tipo,
-    ingredientes: ingrediente
+    ingredientes: { $in: [ingrediente] }
   }).limit(5);
 
   res.json(recetas);

@@ -95,8 +95,23 @@ export const deleteReceta = async (req: Request, res: Response) => {
 };
 
 export const buscarPorIngrediente = async (req: Request, res: Response) => {
-  const recetas = await Receta.find({ ingredientes: req.params.ing });
-  res.json(recetas);
+  try {
+    const ingredientesParam = req.params.ing as string;
+    const ingredientes = ingredientesParam.split(',').map(ing => ing.trim());
+    
+    const recetas = await Receta.find({
+      ingredientes: {
+        $elemMatch: {
+          $regex: ingredientes.map((ing: string) => `(${ing})`).join('|'),
+          $options: 'i'
+        }
+      }
+    });
+    
+    res.json(recetas);
+  } catch (error) {
+    res.status(500).json({ message: "Error buscando por ingrediente", error });
+  }
 };
 
 export const buscarPorTiempo = async (req: Request, res: Response) => {

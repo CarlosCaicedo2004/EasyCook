@@ -69,7 +69,7 @@ export const login = async (req: Request, res: Response) => {
         role: user.role
       },
       process.env.JWT_SECRET || "SECRETO_SUPER",
-      { expiresIn: "1h" }
+      { expiresIn: "12h" }
     );
 
     const refreshToken = jwt.sign(

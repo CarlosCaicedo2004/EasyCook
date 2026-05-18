@@ -6,13 +6,15 @@ export const GetDataFromToken = (req: Request, res: Response, next: NextFunction
 
     if (!token) {
         return next();
-        
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "SECRETO_SUPER");
-        (req as any).query.userId = decoded;
-    } finally {
-        next();
+        (req as any).query.userId = (decoded as any).id || decoded;
+    } catch (error) {
+        // Si el token está expirado o inválido, continuar sin userId
+        console.log('Token inválido o expirado, continuando sin autenticación');
     }
+
+    next();
 };
